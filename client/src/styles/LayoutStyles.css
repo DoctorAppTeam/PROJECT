@@ -30,7 +30,7 @@
     height: 10vh;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-between
 }
 
 .body {
@@ -77,4 +77,25 @@
 
 .active a, .active i{
     color: white;
+}
+
+.header-content{
+    display: flex;
+    align-items: center;
+    height: 50px;
+    justify-content: flex-end;
+    margin: 0 15px;
+}
+
+.header-content i {
+    margin-right: 20px;
+    font-size: 1.2rem;
+}
+
+.header-content a{
+    text-decoration: none;
+    font-size: 16px;
+    color: black;
+    margin: 0 10px;
+    text-transform: uppercase;
 }
