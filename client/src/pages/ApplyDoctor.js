@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { showLoading, hideLoading } from "../redux/features/alertsSlice";
 import axios from "axios";
+import moment from "moment";
 
 const ApplyDoctor = () => {
   const { user } = useSelector((state) => state.user);
@@ -18,7 +19,14 @@ const ApplyDoctor = () => {
       dispatch(showLoading());
       const res = await axios.post(
         "/api/v1/user/apply-doctor",
-        { ...values, userId: user._id },
+        {
+          ...values,
+          userId: user._id,
+          timings: [
+            moment(values.timings[0]).format("HH:mm"),
+            moment(values.timings[1]).format("HH:mm"),
+          ],
+        },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -27,10 +35,10 @@ const ApplyDoctor = () => {
       );
       dispatch(hideLoading());
       if (res.data.success) {
-        message.success(res.data.success);
+        message.success(res.data.message);
         navigate("/");
       } else {
-        message.error(res.data.success);
+        message.error(res.data.message);
       }
     } catch (error) {
       dispatch(hideLoading());
@@ -38,6 +46,7 @@ const ApplyDoctor = () => {
       message.error("Something went wrong");
     }
   };
+
   return (
     <Layout>
       <h1 className="text-center">Apply Doctor</h1>
@@ -152,6 +161,7 @@ const ApplyDoctor = () => {
               <TimePicker.RangePicker format="HH:mm" />
             </Form.Item>
           </Col>
+
           <Col xs={24} md={24} lg={8}></Col>
           <Col xs={24} md={24} lg={8}>
             <button className="btn btn-primary form-btn">Submit</button>

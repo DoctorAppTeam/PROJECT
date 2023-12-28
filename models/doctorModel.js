@@ -42,7 +42,7 @@ const doctorSchema = new mongoose.Schema(
       required: [true, "fee is required"],
     },
     timings: {
-      type: Object,
+      type: Array,
       required: true,
     },
     status: {

@@ -14,11 +14,6 @@ export const userMenu = [
     path: "/apply-doctor",
     icon: "fa-solid fa-stethoscope",
   },
-  {
-    name: "Profile",
-    path: "/profile",
-    icon: "fa-solid fa-user",
-  },
 ];
 
 //admin menu

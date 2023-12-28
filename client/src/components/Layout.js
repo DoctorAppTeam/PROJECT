@@ -17,8 +17,32 @@ function Layout({ children }) {
     navigate("/login");
   };
 
+  //******* Doctors Menu **********
+  const doctorMenu = [
+    {
+      name: "Home",
+      path: "/",
+      icon: "fa-solid fa-house",
+    },
+    {
+      name: "Appointments",
+      path: "/doctor-appointments",
+      icon: "fa-solid fa-bars",
+    },
+    {
+      name: "Profile",
+      path: `/doctor/profile/${user?._id}`,
+      icon: "fa-solid fa-user",
+    },
+  ];
+  //******* Doctors Menu **********
+
   //rendering menu list
-  const SidebarMenu = user?.isAdmin ? adminMenu : userMenu;
+  const SidebarMenu = user?.isAdmin
+    ? adminMenu
+    : user?.isDoctor
+    ? doctorMenu
+    : userMenu;
 
   return (
     <div className="main">
