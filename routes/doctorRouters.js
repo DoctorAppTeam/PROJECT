@@ -6,6 +6,7 @@ const {
   updateProfileController,
   getDoctorByIdController,
   doctorAppointmentsController,
+  updateStatusController,
 } = require("../controllers/doctorCtrl");
 
 //POST SINGLE DOC INFO
@@ -18,10 +19,13 @@ router.post("/updateProfile", authMiddleware, updateProfileController);
 router.post("/getDoctorById", authMiddleware, getDoctorByIdController);
 
 //GET appointments
-router.post(
+router.get(
   "/doctor-appointments",
   authMiddleware,
   doctorAppointmentsController
 );
+
+//POST update appointments status
+router.post("/update-status", authMiddleware, updateStatusController);
 
 module.exports = router;

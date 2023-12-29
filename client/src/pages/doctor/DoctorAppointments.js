@@ -2,15 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Layout from "../../components/Layout";
 import { showLoading, hideLoading } from "../../redux/features/alertsSlice";
+import { message } from "antd";
 import axios from "axios";
-import { Table, message } from "antd";
+import { Table } from "antd";
 import moment from "moment";
+import { format } from "date-fns";
 
 function DoctorAppointments() {
   const [appointments, setAppointments] = useState([]);
   const dispatch = useDispatch();
 
-  const getAppointments = async () => {
+  const getAppointmentsData = async () => {
     try {
       const res = await axios.get("/api/v1/doctor/doctor-appointments", {
         headers: {
@@ -25,15 +27,30 @@ function DoctorAppointments() {
     }
   };
 
-  const handleStatus = () => {};
-
-  useEffect(() => {
-    getAppointments();
-  }, []);
+  const handleStatus = async (record, status) => {
+    try {
+      const res = await axios.post(
+        "/api/v1/doctor/update-status",
+        { appointmentsId: record._id, status: status },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      if (res.data.success) {
+        message.success(res.data.message);
+        getAppointmentsData();
+      }
+    } catch (error) {
+      console.log(error);
+      message.error("Failed to update status. Please try again.");
+    }
+  };
 
   const columns = [
     {
-      title: "ID",
+      title: "Id",
       dataIndex: "_id",
     },
     {
@@ -65,7 +82,7 @@ function DoctorAppointments() {
               </button>
               <button
                 className="btn btn-danger"
-                onClick={() => handleStatus(record, "reject")}
+                onClick={() => handleStatus(record, "rejected")}
               >
                 Reject
               </button>
@@ -75,10 +92,12 @@ function DoctorAppointments() {
       ),
     },
   ];
-
+  useEffect(() => {
+    getAppointmentsData();
+  }, []);
   return (
     <Layout>
-      <h1 className="page-header">Appointments</h1>
+      <h1 className="page-header">Doctor Appointments</h1>
       <hr />
       <Table columns={columns} dataSource={appointments} />
     </Layout>

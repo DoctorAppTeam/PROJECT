@@ -4,11 +4,11 @@ import { useDispatch } from "react-redux";
 import { hideLoading, showLoading } from "../redux/features/alertsSlice";
 import axios from "axios";
 import moment from "moment";
+import { format } from "date-fns";
 import { Table } from "antd";
 
 const Appointments = () => {
   const [appointments, setAppointments] = useState([]);
-  const dispatch = useDispatch();
 
   const getAppointments = async () => {
     try {
@@ -34,20 +34,7 @@ const Appointments = () => {
       title: "ID",
       dataIndex: "_id",
     },
-    // {
-    //   title: "Name",
-    //   dataIndex: "name",
-    //   render: (text, record) => (
-    //     <span>
-    //       {record.doctorInfo.firstName} {record.doctorInfo.lastName}
-    //     </span>
-    //   ),
-    // },
-    // {
-    //   title: "Phone",
-    //   dataIndex: "phone",
-    //   render: (text, record) => <span>{record.doctorInfo.phone}</span>,
-    // },
+
     {
       title: "Date & Time",
       dataIndex: "date",

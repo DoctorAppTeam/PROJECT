@@ -4,6 +4,7 @@ import Layout from "../components/Layout";
 import { useParams, useNavigate } from "react-router-dom";
 import { DatePicker, TimePicker, message } from "antd";
 import moment from "moment";
+import { format } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
 import { showLoading, hideLoading } from "../redux/features/alertsSlice";
 
@@ -44,6 +45,9 @@ const BookingPage = () => {
         return alert("Date & time Required");
       }
       dispatch(showLoading());
+
+      const formattedDate = moment(date, "DD-MM-YYYY").toISOString();
+      const formattedTime = moment(time, "HH:mm").toISOString();
       const res = await axios.post(
         "/api/v1/user/book-appointment",
         {
@@ -51,8 +55,8 @@ const BookingPage = () => {
           userId: user._id,
           doctorInfo: doctors,
           userInfo: user,
-          date: date,
-          time: time,
+          date: formattedDate,
+          time: formattedTime,
         },
         {
           headers: {
