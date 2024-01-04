@@ -40,11 +40,14 @@ const BookingPage = () => {
   //============ booking function ===============
   const handleBooking = async () => {
     try {
-      setIsAvailable(true);
-      if (!date && !time) {
+      if (!date || !time) {
         return alert("Date & time Required");
       }
+
       dispatch(showLoading());
+
+      // Fetch the user data
+      await getUserData();
 
       const formattedDate = moment(date, "DD-MM-YYYY").toISOString();
       const formattedTime = moment(time, "HH:mm").toISOString();
@@ -53,7 +56,7 @@ const BookingPage = () => {
         {
           doctorId: params.doctorId,
           userId: user._id,
-          doctorInfo: doctors,
+          doctorInfo: doctors, // Assuming `doctors` is an array, this might need adjustment
           userInfo: user,
           date: formattedDate,
           time: formattedTime,
@@ -68,6 +71,8 @@ const BookingPage = () => {
       dispatch(hideLoading());
       if (res.data.success) {
         message.success(res.data.message);
+      } else {
+        message.error(res.data.message);
       }
     } catch (error) {
       message.error("Error booking appointment");
@@ -79,9 +84,13 @@ const BookingPage = () => {
   //============ availabilty function ===============
   const handleAvailabilty = async () => {
     try {
+      setIsAvailable(true);
+      if (!date && !time) {
+        return alert("Date & time Required");
+      }
       dispatch(showLoading());
       const res = await axios.post(
-        "/api/v1/user/book-availbility",
+        "/api/v1/user/book-availability",
         {
           doctorId: params.doctorId,
           date,

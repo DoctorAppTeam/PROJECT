@@ -97,7 +97,7 @@ function DoctorAppointments() {
   }, []);
   return (
     <Layout>
-      <h1 className="page-header">Doctor Appointments</h1>
+      <h1 className="page-header">Appointments</h1>
       <hr />
       <Table columns={columns} dataSource={appointments} />
     </Layout>

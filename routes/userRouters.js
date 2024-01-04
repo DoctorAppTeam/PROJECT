@@ -7,9 +7,9 @@ const {
   getAllNotificationController,
   deleteAllNotificationController,
   getAllDoctorsController,
-  bookAppointmentController,
-  bookAvailbilityController,
   userAppointmentController,
+  bookAppointmentController,
+  bookAvailabilityController,
 } = require("../controllers/userCtrl");
 const authMiddleware = require("../middlewares/authMiddleware");
 
@@ -50,7 +50,7 @@ router.get("/getAllDoctors", authMiddleware, getAllDoctorsController);
 router.post("/book-appointment", authMiddleware, bookAppointmentController);
 
 //BOOK AVAILABILITY
-router.post("/book-availbility", authMiddleware, bookAvailbilityController);
+router.post("/book-availability", authMiddleware, bookAvailabilityController);
 
 //BOOK AVAILABILITY
 router.get("/user-appointment", authMiddleware, userAppointmentController);
